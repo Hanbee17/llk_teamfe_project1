@@ -8,6 +8,6 @@
 - Chaejun Lee
 - Kelly Lee
 
-### Description
+## Description
 A Pomodoro website that counts down 25 minutes, 15 minutes, 5 minutes. 
 
