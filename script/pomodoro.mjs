@@ -1,17 +1,18 @@
-var pomodoro = {
-  started: false,
-  goalTime: 0,
-  minutes: 0,
-  seconds: 0,
-  width: 0,
-  fillerIncrement: 0,
-  interval: null,
-  minutesDom: null,
-  secondsDom: null,
-  fillerDom: null,
-  browserWidth: window.visualViewport.width,
-  elapsedTime: 0,
-  init: function () {
+class Pomodoro {
+  started = false
+  goalTime = 0
+  minutes = 0
+  seconds = 0
+  width = 0
+  fillerIncrement = 0
+  interval = null
+  minutesDom = null
+  secondsDom = null
+  fillerDom = null
+  browserWidth = window.visualViewport.width
+  elapsedTime = 0
+
+  constructor() {
     var self = this;
     this.minutesDom = document.querySelector('#minutes');
     this.secondsDom = document.querySelector('#seconds');
@@ -35,6 +36,7 @@ var pomodoro = {
     window.visualViewport.addEventListener('resize', function () {
       self.browserWidth = window.visualViewport.width;
     });
+
     const buttons = document.querySelectorAll('.button');
     buttons.forEach((button) => {
       button.addEventListener('click', (e) => {
@@ -42,45 +44,53 @@ var pomodoro = {
         btns.forEach((btn) => {
           btn.classList.remove('active');
         });
-        e.target.classList.add('active')
+        e.target.classList.add('active');
       });
     });
-  },
-  resetVariables: function (mins, secs, started) {
+  }
+
+  resetVariables(mins, secs, started) {
     this.elapsedTime = 0;
     this.minutes = mins;
     this.seconds = secs;
     this.started = started;
     this.width = 0;
     this.goalTime = mins * 60 + secs;
-  },
-  startWork: function () {
+  }
+
+  startWork() {
     this.resetVariables(25, 0, true);
-  },
-  startShortBreak: function () {
+  }
+
+  startShortBreak() {
     this.resetVariables(5, 0, true);
-  },
-  startLongBreak: function () {
+  }
+
+  startLongBreak() {
     this.resetVariables(15, 0, true);
-  },
-  resetTimer: function () {
+  }
+
+  resetTimer() {
     this.resetVariables(25, 0, false);
     this.updateDom();
-  },
-  toDoubleDigit: function (num) {
+  }
+
+  toDoubleDigit(num) {
     if (num < 10) {
       return "0" + parseInt(num, 10);
     }
     return num;
-  },
-  updateDom: function () {
+  }
+
+  updateDom() {
     this.minutesDom.innerHTML = this.toDoubleDigit(this.minutes);
     this.secondsDom.innerHTML = this.toDoubleDigit(this.seconds);
     this.elapsedTime++;
     this.width = (this.elapsedTime / this.goalTime) * this.browserWidth;
     this.fillerDom.style.width = this.width + 'px';
-  },
-  intervalCallback: function () {
+  }
+
+  intervalCallback() {
     if (!this.started) return false;
     if (this.seconds == 0) {
       if (this.minutes == 0) {
@@ -93,12 +103,12 @@ var pomodoro = {
       this.seconds--;
     }
     this.updateDom();
-  },
-  timerComplete: function () {
+  };
+
+  timerComplete() {
     this.started = false;
     this.width = 0;
   }
-};
-window.onload = function () {
-  pomodoro.init();
-};
+}
+
+export default Pomodoro;
