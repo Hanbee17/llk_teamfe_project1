@@ -5,13 +5,8 @@ body {
 
 h1 {
   color: white;
-  padding-top: 100px;
-  font-size: 80px;
-  font-family: "PT Sans Narrow", sans-serif;
-}
-
-p {
-  color: white;
+  padding-top: 60px;
+  font-size: 100px;
   font-family: "PT Sans Narrow", sans-serif;
 }
 
@@ -29,7 +24,7 @@ p {
   transition-duration: 0.4s;
   background-color: white;
   border: none;
-  color: #e7c6ff;
+  color: #6277a6;
   border-radius: 15px;
   padding: 10px 20px;
   text-align: center;
@@ -41,19 +36,19 @@ p {
 
 .button:hover,
 .button.active {
-  background-color: #b8c0ff;
+  background-color: #6277a6;
   color: white;
 }
 
 #time {
   font-family: "Antonio", sans-serif;
   color: white;
-  font-size: 50px;
-  margin-top: 100px;
+  font-size: 80px;
+  margin-top: 150px;
 }
 
 #buttons {
-  margin-top: 100px;
+  margin-top: 150px;
 }
 
 footer {
