@@ -15,7 +15,6 @@ h1 {
   position: absolute;
   inset: 0;
   z-index: -1;
-
   transition: width 500ms ease-in-out;
 }
 
