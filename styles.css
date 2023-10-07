@@ -20,7 +20,7 @@ h1 {
 
 .blink {
   animation-name: backgroundColorPalette;
-	animation-duration: 1s;
+	animation-duration: s;
 	animation-iteration-count: infinite;
 	animation-direction: alternate;
 	animation-timing-function: linear; 
@@ -70,6 +70,11 @@ h1 {
 .area{
   background: -webkit-linear-gradient(to left, #8f94fb, #4e54c8);  
   pointer-events: none;
+}
+
+ul{
+  margin: 0;
+  padding: 0;
 }
 
 .circles{
@@ -188,7 +193,7 @@ h1 {
 }
 
 footer {
-  padding-top: 200px;
+  padding-top: 180px;
   color: white;
   font-family: "PT Sans Narrow", sans-serif;
 }
