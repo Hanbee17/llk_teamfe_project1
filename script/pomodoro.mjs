@@ -139,6 +139,8 @@ class Pomodoro {
         break;
     }
     this.setActiveButton(document.querySelector(`#${this.status}`));
+
+    this.fillerDom.classList.add('blink');
   }
 }
 
