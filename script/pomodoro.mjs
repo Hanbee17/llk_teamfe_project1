@@ -63,7 +63,7 @@ class Pomodoro {
   }
 
   startShortBreak() {
-    this.resetVariables(5, 0, true);
+    this.resetVariables(1, 0, true);
   }
 
   startLongBreak() {
@@ -108,7 +108,9 @@ class Pomodoro {
   timerComplete() {
     this.started = false;
     this.width = 0;
-  }
+    this.fillerDom.classList.add('blink');
+
+}
 }
 
 export default Pomodoro;
