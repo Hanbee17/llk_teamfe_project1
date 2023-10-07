@@ -69,7 +69,7 @@ h1 {
 
 .area{
   background: -webkit-linear-gradient(to left, #8f94fb, #4e54c8);  
-   
+  pointer-events: none;
 }
 
 .circles{
