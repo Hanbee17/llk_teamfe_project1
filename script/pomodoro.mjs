@@ -1,5 +1,5 @@
 const WORK_TIME = 25;
-const SHORT_BREAK_TIME = 5;
+const SHORT_BREAK_TIME = 1;
 const LONG_BREAK_TIME = 15;
 
 class Pomodoro {
@@ -29,7 +29,9 @@ class Pomodoro {
     this.bgMusic = new Audio('sound/Lofi-1hr.mp3');
     this.bgMusic.loop = true; // Loop the music
     this.isMusicEnabled = false; // Track the music state (disabled by default)
-        
+    
+    this.alarmSound = new Audio('sound/Alarm.mp3');
+
     this.fillerDom.style.width = '0px';
     this.interval = setInterval(function () {
       self.intervalCallback.apply(self);
@@ -46,7 +48,6 @@ class Pomodoro {
     document.querySelector('#reset').addEventListener('click', function () {
       self.resetTimer.apply(self);
     });
-
     document.querySelector('#toggleMusic').onclick = function () {
       self.toggleBackgroundMusic();
     };
@@ -88,11 +89,13 @@ class Pomodoro {
 
   startShortBreak() {
     this.resetVariables(SHORT_BREAK_TIME, 0, true);
+    this.pauseBackgroundMusic();
     this.status = 'shortBreak';
   }
 
   startLongBreak() {
     this.resetVariables(LONG_BREAK_TIME, 0, true);
+    this.pauseBackgroundMusic();
     this.status = 'longBreak';
     this.workRounds = 0;
   }
@@ -134,7 +137,15 @@ class Pomodoro {
   };
 
   timerComplete() {
+    // Reset the progress bar
     this.width = 0;
+    
+    // Play the alarm sound
+    this.playAlarmSound();
+    
+    // Reset the timer immediately
+    this.resetTimer();
+    
     switch (this.status) {
       case 'work':
         if (this.workRounds / 4 === 1) {
@@ -150,11 +161,12 @@ class Pomodoro {
         this.startWork();
         break;
     }
+    
     this.setActiveButton(document.querySelector(`#${this.status}`));
-
     this.fillerDom.classList.add('blink');
   }
   
+
   // Play the background music
   playBackgroundMusic() {
     if (this.isMusicEnabled) {
@@ -165,7 +177,15 @@ class Pomodoro {
   // Pause the background music
   pauseBackgroundMusic() {
     this.bgMusic.pause();
-  }
+  }  
+
+  // Play the alarm sound
+  playAlarmSound() {
+    if (this.isMusicEnabled){
+      this.pauseBackgroundMusic();
+    }
+    this.alarmSound.play();
+  }  
 
   // Toggle the background music on and off
   toggleBackgroundMusic() {
