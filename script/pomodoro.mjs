@@ -1,5 +1,5 @@
 const WORK_TIME = 25;
-const SHORT_BREAK_TIME = 1;
+const SHORT_BREAK_TIME = 5;
 const LONG_BREAK_TIME = 15;
 
 class Pomodoro {
