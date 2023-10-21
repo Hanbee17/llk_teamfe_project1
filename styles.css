@@ -55,3 +55,16 @@ footer {
   color: white;
   font-family: "PT Sans Narrow", sans-serif;
 }
+
+#random{
+  /* BOX MODEL */
+  width: 100%;
+  height: 450px;
+  border: 1px solid black;
+  
+  /* ENHANCEMENT */
+  background-image: url('http://placehold.it/300&text=banner1');
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;  
+}
