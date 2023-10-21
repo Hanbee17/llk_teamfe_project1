@@ -12,3 +12,4 @@ A Pomodoro website that counts down 25 minutes, 15 minutes, 5 minutes.
 Lofi music will be played with a toggle button. 
 A soothing background animation will be looped. 
 A sound alarm will be played when the timer ends.
+Push notifications will blink in the background. 
