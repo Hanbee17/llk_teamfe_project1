@@ -1,5 +1,5 @@
 const WORK_TIME = 25;
-const SHORT_BREAK_TIME = 5;
+const SHORT_BREAK_TIME = 1;
 const LONG_BREAK_TIME = 15;
 
 class Pomodoro {
@@ -29,6 +29,7 @@ class Pomodoro {
     this.bgMusic = new Audio('sound/Lofi-1hr.mp3');
     this.bgMusic.loop = true; // Loop the music
     this.isMusicEnabled = false; // Track the music state (disabled by default)
+    this.alarmSound = new Audio('sound/Alarm.mp3');
 
     this.fillerDom.style.width = '0px';
     this.interval = setInterval(function () {
@@ -50,7 +51,6 @@ class Pomodoro {
       self.resetTimer.apply(self);
       if (Notification.permission !== 'granted') Notification.requestPermission();
     });
-
     document.querySelector('#toggleMusic').onclick = function () {
       self.toggleBackgroundMusic();
     };
@@ -90,11 +90,13 @@ class Pomodoro {
   }
 
   startShortBreak() {
+    this.pauseBackgroundMusic();
     this.resetVariables(SHORT_BREAK_TIME, 0, true);
     this.status = 'shortBreak';
   }
 
   startLongBreak() {
+    this.pauseBackgroundMusic();
     this.resetVariables(LONG_BREAK_TIME, 0, true);
     this.status = 'longBreak';
     this.workRounds = 0;
@@ -137,7 +139,12 @@ class Pomodoro {
   };
 
   timerComplete() {
+    // Reset the progress bar
     this.width = 0;
+    
+    // Play the alarm sound
+    this.playAlarmSound();
+    
     switch (this.status) {
       case 'work':
         this.notify('work')
@@ -156,9 +163,9 @@ class Pomodoro {
         this.startWork();
         break;
     }
-    this.setActiveButton(document.querySelector(`#${this.status}`));
 
     document.body.classList.add('blink');
+    this.setActiveButton(document.querySelector(`#${this.status}`));
 
     setTimeout(() => {
       document.body.classList.remove('blink');
@@ -166,6 +173,7 @@ class Pomodoro {
   }
 
   latestNotification = null;
+  
   notify(msg) {
     if (this.latestNotification) {
       this.latestNotification.close();
@@ -190,7 +198,15 @@ class Pomodoro {
   // Pause the background music
   pauseBackgroundMusic() {
     this.bgMusic.pause();
-  }
+  }  
+
+  // Play the alarm sound
+  playAlarmSound() {
+    if (this.isMusicEnabled){
+      this.pauseBackgroundMusic();
+    }
+    this.alarmSound.play();
+  }  
 
   // Toggle the background music on and off
   toggleBackgroundMusic() {
@@ -204,3 +220,14 @@ class Pomodoro {
 }
 
 export default Pomodoro;
+
+function randombg(){
+  var random= Math.floor(Math.random() * 6) + 0;
+  var bigSize = ["url('http://placehold.it/300&text=banner1')",
+                 "url('http://placehold.it/300&text=banner2')",
+                 "url('http://placehold.it/300&text=banner3')",
+                 "url('http://placehold.it/300&text=banner4')",
+                 "url('http://placehold.it/300&text=banner5')",
+                 "url('http://placehold.it/300&text=banner6')"];
+  document.getElementById("random").style.backgroundImage=bigSize[random];
+}
