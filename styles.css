@@ -50,6 +50,12 @@ h1 {
   margin-top: 150px;
 }
 
+#bgMusic {
+  width: 0;
+  height: 0;
+  visibility: hidden;
+}
+
 footer {
   padding-top: 200px;
   color: white;
