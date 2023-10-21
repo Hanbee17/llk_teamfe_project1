@@ -152,7 +152,11 @@ class Pomodoro {
     }
     this.setActiveButton(document.querySelector(`#${this.status}`));
 
-    this.fillerDom.classList.add('blink');
+    document.body.classList.add('blink');
+
+    setTimeout(() => {
+      document.body.classList.remove('blink');
+    }, 6000);
   }
   
   // Play the background music
