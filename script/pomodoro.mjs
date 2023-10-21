@@ -24,6 +24,12 @@ class Pomodoro {
     this.minutesDom = document.querySelector('#minutes');
     this.secondsDom = document.querySelector('#seconds');
     this.fillerDom = document.querySelector('#filler');
+
+    // Create an audio element for background music
+    this.bgMusic = new Audio('sound/Lofi-1hr.mp3');
+    this.bgMusic.loop = true; // Loop the music
+    this.isMusicEnabled = false; // Track the music state (disabled by default)
+        
     this.fillerDom.style.width = '0px';
     this.interval = setInterval(function () {
       self.intervalCallback.apply(self);
@@ -39,6 +45,10 @@ class Pomodoro {
     });
     document.querySelector('#reset').addEventListener('click', function () {
       self.resetTimer.apply(self);
+    };
+    document.querySelector('#toggleMusic').onclick = function () {
+      self.toggleBackgroundMusic();
+    };
     });
     window.visualViewport.addEventListener('resize', function () {
       self.browserWidth = window.visualViewport.width;
@@ -50,6 +60,7 @@ class Pomodoro {
         this.setActiveButton(e.target);
       });
     });
+
   }
 
   setActiveButton(button) {
@@ -141,6 +152,28 @@ class Pomodoro {
     this.setActiveButton(document.querySelector(`#${this.status}`));
 
     this.fillerDom.classList.add('blink');
+  }
+  
+  // Play the background music
+  playBackgroundMusic() {
+    if (this.isMusicEnabled) {
+      this.bgMusic.play();
+    }
+  }
+
+  // Pause the background music
+  pauseBackgroundMusic() {
+    this.bgMusic.pause();
+  }
+
+  // Toggle the background music on and off
+  toggleBackgroundMusic() {
+    this.isMusicEnabled = !this.isMusicEnabled;
+    if (this.isMusicEnabled) {
+      this.playBackgroundMusic();
+    } else {
+      this.pauseBackgroundMusic();
+    }
   }
 }
 
