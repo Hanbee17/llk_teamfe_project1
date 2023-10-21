@@ -17,6 +17,26 @@
   </head>
   
   <body>
+    <audio id="bgMusic" autoplay loop>
+      <source src="sound/Lofi-1hr.mp3" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
+
+    <div class="area" >
+      <ul class="circles">
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+      </ul>
+    </div >
+    
     <h1>Pomodoro Counter</h1>
 
      
@@ -25,7 +45,6 @@
 
     <div id="pomodoro-app">
       <div id="container">
-        
         <div id="timer">
           <div id="time">
             <span id="minutes">25</span>
@@ -33,6 +52,7 @@
             <span id="seconds">00</span>
           </div>
           <div id="filler"></div>
+          <div id="blink"></div>
         </div>
 
         <div id="buttons">
@@ -40,10 +60,11 @@
           <button class="button" id="shortBreak">Short Break</button>
           <button class="button" id="longBreak">Long Break</button>
           <button class="button" id="reset">Reset</button>
+          <button class="button" id="toggleMusic">Toggle Music</button>
         </div>
       </div>
     </div>
-  </div>
+
     <footer>© LikeLion FrontEnd Team</footer>
   </body>
 </html>

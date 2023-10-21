@@ -1,3 +1,7 @@
+const WORK_TIME = 25;
+const SHORT_BREAK_TIME = 5;
+const LONG_BREAK_TIME = 15;
+
 class Pomodoro {
   started = false
   goalTime = 0
@@ -11,42 +15,60 @@ class Pomodoro {
   fillerDom = null
   browserWidth = window.visualViewport.width
   elapsedTime = 0
+  status = 'idle'
+  workRounds = 0
+  buttons
 
   constructor() {
     var self = this;
     this.minutesDom = document.querySelector('#minutes');
     this.secondsDom = document.querySelector('#seconds');
     this.fillerDom = document.querySelector('#filler');
+
+    // Create an audio element for background music
+    this.bgMusic = new Audio('sound/Lofi-1hr.mp3');
+    this.bgMusic.loop = true; // Loop the music
+    this.isMusicEnabled = false; // Track the music state (disabled by default)
+        
     this.fillerDom.style.width = '0px';
     this.interval = setInterval(function () {
       self.intervalCallback.apply(self);
     }, 1000);
-    document.querySelector('#work').onclick = function () {
+    document.querySelector('#work').addEventListener('click', function () {
       self.startWork.apply(self);
-    };
-    document.querySelector('#shortBreak').onclick = function () {
+    });
+    document.querySelector('#shortBreak').addEventListener('click', function () {
       self.startShortBreak.apply(self);
-    };
-    document.querySelector('#longBreak').onclick = function () {
+    });
+    document.querySelector('#longBreak').addEventListener('click', function () {
       self.startLongBreak.apply(self);
-    };
-    document.querySelector('#reset').onclick = function () {
+    });
+    document.querySelector('#reset').addEventListener('click', function () {
       self.resetTimer.apply(self);
+    });
+
+    document.querySelector('#toggleMusic').onclick = function () {
+      self.toggleBackgroundMusic();
     };
+
     window.visualViewport.addEventListener('resize', function () {
       self.browserWidth = window.visualViewport.width;
     });
+    this.buttons = document.querySelectorAll('.button');
 
-    const buttons = document.querySelectorAll('.button');
-    buttons.forEach((button) => {
+    this.buttons.forEach((button) => {
       button.addEventListener('click', (e) => {
-        const btns = document.querySelectorAll('.button');
-        btns.forEach((btn) => {
-          btn.classList.remove('active');
-        });
-        e.target.classList.add('active');
+        this.setActiveButton(e.target);
       });
     });
+
+  }
+
+  setActiveButton(button) {
+    this.buttons.forEach((btn) => {
+      btn.classList.remove('active');
+    });
+    button.classList.add('active');
   }
 
   resetVariables(mins, secs, started) {
@@ -59,20 +81,26 @@ class Pomodoro {
   }
 
   startWork() {
-    this.resetVariables(25, 0, true);
+    this.resetVariables(WORK_TIME, 0, true);
+    this.status = 'work';
+    this.workRounds++;
   }
 
   startShortBreak() {
-    this.resetVariables(5, 0, true);
+    this.resetVariables(SHORT_BREAK_TIME, 0, true);
+    this.status = 'shortBreak';
   }
 
   startLongBreak() {
-    this.resetVariables(15, 0, true);
+    this.resetVariables(LONG_BREAK_TIME, 0, true);
+    this.status = 'longBreak';
+    this.workRounds = 0;
   }
 
   resetTimer() {
-    this.resetVariables(25, 0, false);
+    this.resetVariables(WORK_TIME, 0, false);
     this.updateDom();
+    this.status = 'idle';
   }
 
   toDoubleDigit(num) {
@@ -106,8 +134,47 @@ class Pomodoro {
   };
 
   timerComplete() {
-    this.started = false;
     this.width = 0;
+    switch (this.status) {
+      case 'work':
+        if (this.workRounds / 4 === 1) {
+          this.startLongBreak();
+          break;
+        }
+        this.startShortBreak();
+        break;
+      case 'shortBreak':
+        this.startWork();
+        break;
+      case 'longBreak':
+        this.startWork();
+        break;
+    }
+    this.setActiveButton(document.querySelector(`#${this.status}`));
+
+    this.fillerDom.classList.add('blink');
+  }
+  
+  // Play the background music
+  playBackgroundMusic() {
+    if (this.isMusicEnabled) {
+      this.bgMusic.play();
+    }
+  }
+
+  // Pause the background music
+  pauseBackgroundMusic() {
+    this.bgMusic.pause();
+  }
+
+  // Toggle the background music on and off
+  toggleBackgroundMusic() {
+    this.isMusicEnabled = !this.isMusicEnabled;
+    if (this.isMusicEnabled) {
+      this.playBackgroundMusic();
+    } else {
+      this.pauseBackgroundMusic();
+    }
   }
 }
 
