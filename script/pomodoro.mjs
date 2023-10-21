@@ -45,11 +45,12 @@ class Pomodoro {
     });
     document.querySelector('#reset').addEventListener('click', function () {
       self.resetTimer.apply(self);
-    };
+    });
+
     document.querySelector('#toggleMusic').onclick = function () {
       self.toggleBackgroundMusic();
     };
-    });
+
     window.visualViewport.addEventListener('resize', function () {
       self.browserWidth = window.visualViewport.width;
     });
