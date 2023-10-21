@@ -29,7 +29,6 @@ class Pomodoro {
     this.bgMusic = new Audio('sound/Lofi-1hr.mp3');
     this.bgMusic.loop = true; // Loop the music
     this.isMusicEnabled = false; // Track the music state (disabled by default)
-    
     this.alarmSound = new Audio('sound/Alarm.mp3');
 
     this.fillerDom.style.width = '0px';
@@ -38,15 +37,19 @@ class Pomodoro {
     }, 1000);
     document.querySelector('#work').addEventListener('click', function () {
       self.startWork.apply(self);
+      if (Notification.permission !== 'granted') Notification.requestPermission();
     });
     document.querySelector('#shortBreak').addEventListener('click', function () {
       self.startShortBreak.apply(self);
+      if (Notification.permission !== 'granted') Notification.requestPermission();
     });
     document.querySelector('#longBreak').addEventListener('click', function () {
       self.startLongBreak.apply(self);
+      if (Notification.permission !== 'granted') Notification.requestPermission();
     });
     document.querySelector('#reset').addEventListener('click', function () {
       self.resetTimer.apply(self);
+      if (Notification.permission !== 'granted') Notification.requestPermission();
     });
     document.querySelector('#toggleMusic').onclick = function () {
       self.toggleBackgroundMusic();
@@ -62,7 +65,6 @@ class Pomodoro {
         this.setActiveButton(e.target);
       });
     });
-
   }
 
   setActiveButton(button) {
@@ -145,6 +147,7 @@ class Pomodoro {
     
     switch (this.status) {
       case 'work':
+        this.notify('work')
         if (this.workRounds / 4 === 1) {
           this.startLongBreak();
           break;
@@ -152,17 +155,38 @@ class Pomodoro {
         this.startShortBreak();
         break;
       case 'shortBreak':
+        this.notify('short break')
         this.startWork();
         break;
       case 'longBreak':
+        this.notify('long break')
         this.startWork();
         break;
     }
 
+    document.body.classList.add('blink');
     this.setActiveButton(document.querySelector(`#${this.status}`));
-    this.fillerDom.classList.add('blink');
+
+    setTimeout(() => {
+      document.body.classList.remove('blink');
+    }, 6000);
   }
+
+  latestNotification = null;
   
+  notify(msg) {
+    if (this.latestNotification) {
+      this.latestNotification.close();
+    }
+
+    if (Notification.permission === 'granted') {
+      this.latestNotification = new Notification('LikeLion Pomodoro Timer', {
+        body: `Your ${msg} timer is done!`,
+        icon: '',
+        tag: 'pomodoro',
+      });
+    }
+  }
 
   // Play the background music
   playBackgroundMusic() {
