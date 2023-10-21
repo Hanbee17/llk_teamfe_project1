@@ -88,14 +88,14 @@ class Pomodoro {
   }
 
   startShortBreak() {
-    this.resetVariables(SHORT_BREAK_TIME, 0, true);
     this.pauseBackgroundMusic();
+    this.resetVariables(SHORT_BREAK_TIME, 0, true);
     this.status = 'shortBreak';
   }
 
   startLongBreak() {
-    this.resetVariables(LONG_BREAK_TIME, 0, true);
     this.pauseBackgroundMusic();
+    this.resetVariables(LONG_BREAK_TIME, 0, true);
     this.status = 'longBreak';
     this.workRounds = 0;
   }
@@ -143,9 +143,6 @@ class Pomodoro {
     // Play the alarm sound
     this.playAlarmSound();
     
-    // Reset the timer immediately
-    this.resetTimer();
-    
     switch (this.status) {
       case 'work':
         if (this.workRounds / 4 === 1) {
@@ -161,7 +158,7 @@ class Pomodoro {
         this.startWork();
         break;
     }
-    
+
     this.setActiveButton(document.querySelector(`#${this.status}`));
     this.fillerDom.classList.add('blink');
   }
