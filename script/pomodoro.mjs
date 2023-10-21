@@ -21,7 +21,7 @@ class Pomodoro {
     // Create an audio element for background music
     this.bgMusic = new Audio('sound/Lofi-1hr.mp3');
     this.bgMusic.loop = true; // Loop the music
-    this.isMusicEnabled = true; // Track the music state (enabled by default)
+    this.isMusicEnabled = false; // Track the music state (disabled by default)
         
     this.fillerDom.style.width = '0px';
     this.interval = setInterval(function () {
@@ -41,7 +41,7 @@ class Pomodoro {
     };
     document.querySelector('#toggleMusic').onclick = function () {
       self.toggleBackgroundMusic();
-    };    
+    };
     window.visualViewport.addEventListener('resize', function () {
       self.browserWidth = window.visualViewport.width;
     });
@@ -57,10 +57,6 @@ class Pomodoro {
       });
     });
 
-    // Play the background music when the page loads
-    document.addEventListener('DOMContentLoaded', () => {
-      this.playBackgroundMusic();
-    });    
   }
 
   resetVariables(mins, secs, started) {
@@ -123,6 +119,7 @@ class Pomodoro {
     this.started = false;
     this.width = 0;
   }
+  
   // Play the background music
   playBackgroundMusic() {
     if (this.isMusicEnabled) {
