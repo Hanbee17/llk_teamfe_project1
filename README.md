@@ -1,7 +1,7 @@
 # Pomodoro Counter
 [Live Website](https://hanbee17.github.io/llk_teamfe_project1/)
 
-## Purpuse
+## Purpose
 Our Pomodoro website is designed to help individuals enhance their productivity and time management skills through the popular Pomodoro Technique. By utilizing a simple and effective time management method, we aim to assist users in breaking down work into intervals, traditionally 25 minutes in length, separated by short breaks. Our platform provides a user-friendly interface that allows individuals to easily set timers, track their work sessions, and manage their breaks effectively.
 
 ## Features
